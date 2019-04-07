@@ -53,6 +53,8 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 
+RUN mkdir /tmp/hls && /tmp/dash
+
 #Expose HLS and RTMP
 EXPOSE 8080
 EXPOSE 1935
