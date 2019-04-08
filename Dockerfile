@@ -1,14 +1,14 @@
 FROM buildpack-deps:stretch
 
-LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
+LABEL maintainer="Q0 <QuillOmega0@gmail.com>"
 
 # Versions of Nginx and nginx-rtmp-module to use
-ENV NGINX_VERSION nginx-1.15.0
+ENV NGINX_VERSION nginx-1.15.10
 ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y ca-certificates openssl libssl-dev && \
+    apt-get install -y ca-certificates openssl libssl-dev ffmpeg && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and decompress Nginx
@@ -52,5 +52,11 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 
+RUN mkdir /tmp/hls && mkdir /tmp/dash && mkdir -p /var/www/html
+
+# EXPOSE HTTP
+EXPOSE 1380
+#Expose HLS and RTMP
 EXPOSE 1935
+
 CMD ["nginx", "-g", "daemon off;"]
