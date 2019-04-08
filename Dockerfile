@@ -52,9 +52,11 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN mkdir /tmp/hls && mkdir /tmp/dash
+RUN mkdir /tmp/hls && mkdir /tmp/dash && mkdir -p /var/www/html
 
+# EXPOSE HTTP
+EXPOSE 1380
 #Expose HLS and RTMP
-EXPOSE 8080
 EXPOSE 1935
+
 CMD ["nginx", "-g", "daemon off;"]
